@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>something</title>
+</head>
+<script src="jquery-3.3.1.js"></script>
+<style>
+	#canv {
+		background-color: #aae;
+	}
+</style>
+<body>
+
+	<canvas id="canv" width="400" height="300"></canvas>
+	<iframe id="auto" src="auto.svg"></iframe>
+	<svg id="svg" width="400" height="300" style="background-color: #aae;"></svg>
+	<img id="car_top" src="car_top.png" height="40" width="40">
+
+
+	<script type="text/javascript">
+		
+		var canv = document.getElementById("canv");
+		var ctx  = canv.getContext("2d");
+		var auto = document.getElementById("auto");
+
+
+		// Make a list of 40*30 squares
+		for (i=0; i<40; i++){
+			for (j=0; j<30; j++){
+				var x = 10*i;
+				var y = 10*j;
+				if ( (i+j)%2 == 0) {
+					var fill = "red";
+				}
+				else {
+					var fill = "blue";
+				}
+				ctx.fillStyle = fill;
+				ctx.fillRect(x, y, 10, 10);
+			}
+		}
+		img = document.getElementById("car_top");
+		ctx.drawImage(auto, 10, 10);
+	</script>
+
+</body>
+</html>
