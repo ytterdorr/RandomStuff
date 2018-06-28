@@ -1,0 +1,110 @@
+
+</!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Shooter
+	</title>
+	<meta charset="utf-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<style>
+		body {
+			width: 100vw;
+			height: 100vh;
+		}
+		#container {
+			width: 500;
+			height: 400px;
+			border: 1px solid black;
+			margin: auto;
+
+		}
+		
+		#box {
+			background-color: #020202;
+			width: 50px;
+			height: 100px;
+			position: relative;
+			left: 225px;
+		}
+
+		.object {
+			background-color: red;
+			width: 10px;
+			height: 20px;
+			/*display: none;*/
+			position: relative;
+			top: 0px;
+
+
+		}
+	</style>
+</head>
+<body>
+
+	<div id="container">
+		<div id="box">
+		</div>
+		<!--<div class="object"></div>; -->
+	</div>
+
+
+	<script>
+		$("document").ready(function() {
+			document.addEventListener("keydown", keyDownHandler);
+			let id_counter = 0;
+			
+
+			fallspeed = 20;
+			movespeed = 10;
+
+
+			function keyDownHandler(e) {
+				key = e.keyCode;
+				e.preventDefault();
+				console.log(key);
+				// Drop on space
+				if (key == 32) {
+					left = parseInt($("#box").css("left"));
+					id_counter += 1
+					console.log("left", left);
+					id_string = "object" + id_counter;
+					object = "<div class='object', id='"+id_string+"'>";
+					//console.log("#"+)
+					$("#container").append(object);
+					$("#"+id_string).css("left", left);
+					//console.log($(id_string).css("left"));
+				}
+				// Move on left key or right key
+				if (key == 37) {
+					if (inFrame()) {
+						$("#box").css("left", "-=" + movespeed + "px");
+					}				
+				}
+
+				if (key == 39) {
+					if (inFrame()) {
+						$("#box").css("left", "+=" + movespeed + "px");
+					}
+
+				}
+
+			}
+
+			function inFrame() {
+				//TODO
+				return true; 
+			}
+			function keyUpHandler(e) {
+			}
+
+			falling = window.setInterval(function() {
+				$(".object").css("top", "+=" + fallspeed + "px");
+			}, 1000);
+		});
+
+
+	</script>
+
+</body>
+</html>
