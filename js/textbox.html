@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Textbox</title>
+	<link href="https://fonts.googleapis.com/css?family=Shrikhand|Ubuntu" rel="stylesheet">
+		
+	<script src="snap.svg.js"></script>
+	<style type="text/css">
+	body {
+		width: 100vw;
+		height: 100vw;
+		margin: auto;
+	}
+		#svg_field {
+			background-color: blue;
+			display: block;
+			margin: auto;
+		}
+	</style>
+</head>
+<body>
+<svg id="svg_field" width=640 height=480
+	viewBox="0 0 320 240" preserveAspectRatio="true"
+     xmlns="http://www.w3.org/2000/svg">></svg>
+
+</body>
+
+<script type="text/javascript">
+	snap = Snap("#svg_field");
+	
+	let tb = {
+		x: 10, 
+		y: 150,
+		width: 300,
+		height: 80,
+		rx: 10,
+		ry: 10
+	};
+
+	let tb_background = snap.rect(tb.x, tb.y, tb.width, tb.height, tb.rx, tb.ry)
+			.attr({fill: "gray", opacity: 0.5, stroke: "white"});
+	
+	let tb_border = snap.rect(tb.x, tb.y, tb.width, tb.height, tb.rx, tb.ry)
+			.attr({fill: "none", stroke: "white"});
+
+	//let text = snap.text(tb.x+5, tb.y+13, "Text").attr({fill: "white", "font-size": "13px", "font-family": "Shrikhand"});
+
+	let otherText = "This is a piece of text, about something or nothing. I hope it will make sense to someone sometime."
+
+	//let letterArray = otherText.split('')
+	let myTextStringArray = [];
+	let row_length = 44;
+	let wordArray = otherText.split(' ');
+	let tmp_text = "";
+	let first_word = true;
+	var textGroup = snap.g().attr({ fill: "white", "font-size": "12px", "font-family": "Shrikhand" });
+	for (let i=0, row=1; i<wordArray.length; i++) {
+
+		if (tmp_text.length + wordArray[i].length > row_length) {
+			myTextStringArray.push(tmp_text)
+			//textElArray = textGroup.text(tb.x+5, tb.y+5, tmp_text).attr({y: tb.y+row*13});
+			first_word = true;
+			row += 1;
+		}
+		if (first_word) {
+			tmp_text = wordArray[i];
+			first_word = false
+
+		}
+		else {
+			tmp_text += " "+wordArray[i];
+		}
+		// Ending case
+		if (i == wordArray.length-1) {
+			myTextStringArray.push(tmp_text)
+			
+			//textElArray = textGroup.text(tb.x+5, tb.y+5, tmp_text).attr({y: tb.y+row*13});
+
+		}
+		console.log(tmp_text, tmp_text.length)
+
+	}
+
+	var myCharArray, textElArray, myTrans;
+	var offsetY = tb.y+13;
+
+	for( var a=0; a<myTextStringArray.length; a++) {
+
+	        myCharArray = myTextStringArray[a].split('');
+	        textElArray = textGroup.text(15, 120, myCharArray).attr({ opacity : 1, y: (a * 13 + offsetY) });
+	        
+	};
+
+	myTspans = textGroup.selectAll("tspan").attr({
+	        opacity: 0
+	});
+
+	function animFunc( element ) {
+	        Snap.animate(0,1, function( value ) {
+	                //element.attr({ opacity: value, rotate: (value * 180)+180 });
+	                element.attr({ opacity: value > 0.5 ? value : 0});
+	        }, 500 );
+	}
+
+	for( var i=0; i < myTspans.length; i++ ) {
+	        setTimeout( 
+	                        animFunc.bind(null, myTspans[i]) 
+	                , i * 50);
+	}
+
+</script>
+
+</html>
